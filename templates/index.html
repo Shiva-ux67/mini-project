@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhistleSecure | Secure Portal</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+        }
+
+        /* The Animated Gradient Background */
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            overflow: hidden;
+            /* Multiple professional colors for the shift */
+            background: linear-gradient(-45deg, #1e3a8a, #1e40af, #4338ca, #1d4ed8);
+            background-size: 400% 400%;
+            animation: gradientBG 12s ease infinite;
+        }
+
+        /* Animation Keyframes */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Moving Grid Pattern Overlay */
+        body::before {
+            content: "";
+            position: absolute;
+            width: 200%; height: 200%;
+            top: -50%; left: -50%;
+            background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+            background-size: 40px 40px;
+            transform: rotate(15deg);
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        .hero-card {
+            position: relative;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 50px 45px;
+            border-radius: 24px;
+            text-align: center;
+            max-width: 480px;
+            width: 90%;
+            /* Sophisticated shadow to make it 'pop' */
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: float 5s ease-in-out infinite;
+        }
+
+        /* Gentle floating animation for the card */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .icon-box {
+            width: 80px;
+            height: 80px;
+            background: #f0f7ff;
+            border-radius: 22px;
+            margin: 0 auto 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 38px;
+            border: 2px solid #3b82f6;
+            color: #1e3a8a;
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.1);
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: #1e3a8a;
+            letter-spacing: -0.5px;
+        }
+
+        p {
+            font-size: 16px;
+            color: #475569;
+            margin-bottom: 35px;
+            line-height: 1.6;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .btn {
+            text-decoration: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: #1e3a8a;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
+        }
+
+        .btn-outline {
+            background: #ffffff;
+            color: #1e3a8a;
+            border: 2px solid #e2e8f0;
+        }
+
+        .btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-outline:hover {
+            border-color: #3b82f6;
+            background: #f8fafc;
+        }
+
+        .footer-tag {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #94a3b8;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero-card">
+        <div class="icon-box">🛡️</div>
+        
+        <h1>WhistleSecure</h1>
+        <p>A high-integrity platform for evidence submission.<br>End-to-end protection for the modern web.</p>
+        
+        <div class="btn-group">
+            <a href="/login" class="btn btn-primary">Login</a>
+            <a href="/signup" class="btn btn-outline">Register Now</a>
+        </div>
+
+        <div class="footer-tag">Department of CSE • Mini Project</div>
+    </div>
+
+    <script src="/static/js/script.js"></script>
+</body>
+</html>

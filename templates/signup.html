@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhistleSecure | Entity Registration</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        /* Unified Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+        }
+
+        /* Consistent Aurora Background */
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(-45deg, #1e3a8a, #1e40af, #4338ca, #1d4ed8);
+            background-size: 400% 400%;
+            animation: gradientBG 12s ease infinite;
+            color: #ffffff;
+            overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Subtle Grid Overlay */
+        body::before {
+            content: "";
+            position: absolute;
+            width: 200%; height: 200%;
+            top: -50%; left: -50%;
+            background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+            background-size: 40px 40px;
+            transform: rotate(15deg);
+            pointer-events: none;
+            opacity: 0.4;
+        }
+
+        /* Secure Glass Card */
+        .signup-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 45px;
+            border-radius: 24px;
+            text-align: center;
+            width: 700px;
+            max-width: 850px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: #1e3a8a;
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 25px;
+            display: block;
+        }
+
+        /* Form Labels */
+        .label-text {
+            display: block;
+            text-align: left;
+            color: #475569;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            margin-left: 5px;
+        }
+
+        /* Modern Input & Select Fields */
+        input[type="text"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 14px 18px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            background: #f8fafc;
+            color: #1e293b;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            outline: none;
+            appearance: none; /* Removes default arrow for custom look */
+        }
+
+        /* Custom Arrow for Select */
+        .select-wrapper {
+            position: relative;
+        }
+
+        .select-wrapper::after {
+            content: '▼';
+            font-size: 10px;
+            color: #64748b;
+            position: absolute;
+            right: 15px;
+            top: 22px;
+            pointer-events: none;
+        }
+
+        input:focus, select:focus {
+            border-color: #3b82f6;
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+
+        /* Register Button */
+        button {
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            border: none;
+            background: #1e3a8a;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(30, 58, 138, 0.25);
+        }
+
+        .login-text {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .login-text a {
+            color: #1e3a8a;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .login-text a:hover {
+            color: #3b82f6;
+            text-decoration: underline;
+        }
+
+        .otp-group {
+            display: none; /* Hidden until registration starts */
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border: 1px dashed #3b82f6;
+        }
+        .btn-otp {
+            background: #059669;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="signup-card">
+        <h2>Register Account</h2>
+        <span class="subtitle">Establish your identity within the secure network.</span>
+
+        <form method="POST" id="registrationForm">
+            <span class="label-text">Username</span>
+            <input type="text" name="username" placeholder="ex. Shiva" required>
+            
+            <span class="label-text">Email Address</span>
+            <input type="email" name="email" id="emailField" placeholder="shiva@example.com" required 
+                   style="width: 100%; padding: 14px 18px; margin-bottom: 15px; border-radius: 12px; border: 2px solid #e2e8f0;">
+
+            <span class="label-text">Password</span>
+            <input type="password" name="password" placeholder="Minimum 8 characters" required>
+            
+            <span class="label-text">Access Level</span>
+            <div class="select-wrapper">
+                <select name="role" required>
+                    <option value="" disabled selected>Select assigned role</option>
+                    <option value="Customer">Customer</option>
+                    <option value="Seller">Seller</option>
+                    <option value="Admin">Admin</option>
+                </select>
+            </div>
+
+            <div id="otpSection" class="otp-group">
+                <span class="label-text">Verification OTP</span>
+                <input type="text" name="otp" placeholder="Enter 6-digit code">
+                <p style="font-size: 11px; color: #64748b;">Check your terminal for the code.</p>
+            </div>
+
+            <button type="submit" id="mainBtn">Verify Email & Register</button>
+        </form>
+
+        <p class="login-text">
+            Existing entity? <a href="/login">Access Portal</a>
+        </p>
+    </div>
+
+    <script>
+        const form = document.getElementById('registrationForm');
+        const otpSection = document.getElementById('otpSection');
+        const mainBtn = document.getElementById('mainBtn');
+
+        // This script handles the UI swap between "Send OTP" and "Register"
+        form.onsubmit = function(e) {
+            if (otpSection.style.display === 'none' || otpSection.style.display === '') {
+                // If OTP is not shown yet, don't submit the form fully
+                // In a real app, you'd use fetch() here to trigger the OTP email
+                otpSection.style.display = 'block';
+                mainBtn.innerText = "Complete Registration";
+                mainBtn.style.background = "#059669";
+                
+                // Show a fake alert for the demo
+                alert("OTP Sent! For this project demo, check your Python Terminal/Console for the code.");
+                return false; 
+            }
+            return true;
+        };
+    </script>
+</body>
+</html>

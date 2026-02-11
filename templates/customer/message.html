@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message Inbox | WhistleSecure</title>
+    <style>
+        /* Professional Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: #f1f5f9;
+            color: #1e293b;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 850px;
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+        }
+
+        /* Message Card List */
+        .message-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .message-details {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .sender-info {
+            font-size: 14px;
+            font-weight: 700;
+            color: #4f46e5; /* Indigo Theme */
+        }
+
+        .timestamp {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        /* Action Button */
+        .btn-decrypt {
+            text-decoration: none;
+            background-color: #f1f5f9;
+            color: #4f46e5;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s;
+        }
+
+        .btn-decrypt:hover {
+            background-color: #4f46e5;
+            color: #ffffff;
+            border-color: #4f46e5;
+        }
+
+        .no-messages {
+            text-align: center;
+            padding: 50px;
+            color: #64748b;
+            background: white;
+            border-radius: 10px;
+            border: 1px dashed #cbd5e1;
+        }
+
+        .back-nav {
+            margin-top: 30px;
+            text-decoration: none;
+            color: #64748b;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .back-nav:hover {
+            color: #0f172a;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Encrypted Message Inbox</h2>
+
+        <div class="message-list">
+            {% if messages %}
+                {% for msg_id, msg in messages.items() %}
+                <div class="message-card">
+                    <div class="message-details">
+                        <span class="sender-info">FROM: {{ msg.sender }}</span>
+                        <span class="timestamp">Received: {{ msg.timestamp }}</span>
+                    </div>
+                    <a href="/customer/decrypt/{{ msg_id }}" class="btn-decrypt">Decrypt Message</a>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="no-messages">
+                    Your secure inbox is currently empty.
+                </div>
+            {% endif %}
+        </div>
+
+        <a href="/customer/dashboard" class="back-nav">← Return to Workspace</a>
+    </div>
+
+</body>
+</html>

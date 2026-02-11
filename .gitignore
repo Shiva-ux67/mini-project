@@ -1,0 +1,14 @@
+# Ignore the database (don't push user data/passwords)
+database/
+db.json
+
+# Ignore Python cache
+__pycache__/
+*.pyc
+
+# Ignore environment variables/keys
+.env
+instance/
+
+# Ignore OS files
+.DS_Store

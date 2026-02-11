@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhistleSecure | User Management</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+        body {
+            min-height: 100vh;
+            background-color: #f8fafc;
+            color: #1e293b;
+            padding: 50px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container { width: 100%; max-width: 1000px; }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 20px;
+        }
+
+        h2 { font-size: 24px; color: #0f172a; }
+
+        .user-card {
+            background: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th {
+            background-color: #f1f5f9;
+            padding: 16px 24px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #475569;
+        }
+
+        td { padding: 18px 24px; font-size: 14px; border-bottom: 1px solid #f1f5f9; }
+
+        /* Role Badges */
+        .badge {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        .badge-admin { background: #fee2e2; color: #991b1b; }
+        .badge-seller { background: #dcfce7; color: #166534; }
+        .badge-customer { background: #e0e7ff; color: #3730a3; }
+
+        .btn-back {
+            margin-top: 25px;
+            text-decoration: none;
+            color: #64748b;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .btn-back:hover { color: #0f172a; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>User Management</h2>
+            <p style="color: #64748b; font-size: 14px;">Total Entities: {{ users|length }}</p>
+        </div>
+
+        <div class="user-card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Assigned Role</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td style="font-weight: 600;">{{ user.username }}</td>
+                        <td>
+                            <span class="badge 
+                                {% if user.role == 'Admin' %}badge-admin
+                                {% elif user.role == 'Seller' %}badge-seller
+                                {% else %}badge-customer{% endif %}">
+                                {{ user.role }}
+                            </span>
+                        </td>
+                        <td style="color: #10b981;">● Active</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <a href="/admin/dashboard" class="btn-back">← Back to Command Dashboard</a>
+    </div>
+</body>
+</html>

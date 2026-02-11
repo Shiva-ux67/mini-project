@@ -1,0 +1,48 @@
+hybrid encryption,and double layer encryption, mutli factor athentication, and aslo adding email validation, OTP generator.
+
+implementing RSA Algorith.
+->>>stigonography
+
+
+key for = FEISTEL_KEY_2026
+
+
+
+WhistleSecure_Project/
+│
+├── app.py                 # Main Flask application (Routes & Logic)
+├── crypto_utils.py        # Your Feistel Cipher encryption module
+├── database/              # Folder to store your TinyDB JSON files
+│   └── db.json            # TinyDB stores all users, messages, and logs here
+│
+├── static/                # CSS, Images, and JavaScript
+│   ├── css/
+│   │   └── style.css
+│   └── js/
+│       └── script.js
+│
+└── templates/             # All HTML files go here
+    ├── index.html         # Landing page
+    ├── login.html         # Login page
+    ├── signup.html        # Registration page
+    │
+    ├── admin/             # Admin-specific pages
+    │   ├── dashboard.html
+    │   ├── users.html
+    │   ├── keys.html
+    │   ├── audit.html
+    │   └── settings.html
+    │
+    ├── seller/            # Seller-specific pages
+    │   ├── dashboard.html
+    │   ├── products.html
+    │   ├── upload.html
+    │   ├── files.html
+    │   └── messages.html
+    │
+    └── customer/          # Customer-specific pages
+        ├── dashboard.html
+        ├── products.html
+        ├── files.html
+        ├── decrypt.html
+        └── messages.html

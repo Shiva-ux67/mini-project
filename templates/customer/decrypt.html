@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhistleSecure | Secure Decryption</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: #f1f5f9; /* Clean, light neutral background */
+            color: #334155;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .viewer-container {
+            width: 100%;
+            max-width: 650px;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        /* Hash Display Box */
+        .hash-preview {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .hash-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #64748b;
+            font-weight: 700;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .hash-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: #475569;
+            word-break: break-all; /* Ensures long hashes don't break the layout */
+        }
+
+        /* Input Form Group */
+        .form-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 14px 18px;
+            border-radius: 8px;
+            border: 2px solid #e2e8f0;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus {
+            border-color: #6366f1; /* Indigo focus */
+        }
+
+        button {
+            background-color: #4f46e5; /* Professional Indigo */
+            color: white;
+            padding: 14px 28px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background-color: #4338ca;
+            transform: translateY(-1px);
+        }
+
+        /* Result Boxes */
+        .result-box {
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 25px;
+        }
+
+        .success-box {
+            background-color: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #166534;
+        }
+
+        .error-box {
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #991b1b;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .decrypted-text {
+            display: block;
+            margin-top: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #111827;
+        }
+
+        /* Footer Link */
+        .footer-nav {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .btn-link {
+            text-decoration: none;
+            color: #64748b;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .btn-link:hover {
+            color: #4f46e5;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="viewer-container">
+        <h2>Secure Decryption Tool</h2>
+        
+        <div class="hash-preview">
+            <span class="hash-label">Encrypted Data Stream (Hex)</span>
+            <div class="hash-value">{{ encrypted_val }}</div>
+        </div>
+
+        <form method="POST" class="form-group">
+            <input type="text" name="key" placeholder="Enter System Decryption Key" required>
+            <button type="submit">Unlock Data</button>
+        </form>
+
+        {% if decrypted_msg %}
+            <div class="result-box success-box">
+                <span class="hash-label" style="color: #166534;">Decryption Successful</span>
+                <span class="decrypted-text">{{ decrypted_msg }}</span>
+            </div>
+        {% elif error %}
+            <div class="result-box error-box">
+                {{ error }}
+            </div>
+        {% endif %}
+        
+        <div class="footer-nav">
+            <a href="/customer/dashboard" class="btn-link">← Return to Records Dashboard</a>
+        </div>
+    </div>
+
+</body>
+</html>

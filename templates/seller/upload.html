@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhistleSecure | Secure Submission</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: #f0fdf4; /* Matching Emerald background */
+            color: #064e3b;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .upload-card {
+            width: 100%;
+            max-width: 650px;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px -5px rgba(6, 78, 59, 0.1);
+            padding: 40px;
+            border: 1px solid #dcfce7;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            font-size: 26px;
+            font-weight: 800;
+            color: #065f46;
+            margin-bottom: 10px;
+            letter-spacing: -0.02em;
+        }
+
+        .instruction {
+            font-size: 14px;
+            color: #059669;
+            margin-bottom: 25px;
+        }
+
+        /* Message Input Area */
+        label {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #374151;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 18px;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            background-color: #f8fafc;
+            font-family: 'JetBrains Mono', monospace; /* Monospace for technical feel */
+            font-size: 14px;
+            color: #1e293b;
+            outline: none;
+            resize: vertical;
+            min-height: 160px;
+            transition: all 0.2s;
+        }
+
+        textarea:focus {
+            border-color: #10b981;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+        }
+
+        /* Security Feature Box */
+        .security-banner {
+            background-color: #ecfdf5;
+            border-left: 4px solid #10b981;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-top: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .security-banner p {
+            font-size: 13px;
+            color: #065f46;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        /* Encrypt Button */
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 16px;
+            border-radius: 12px;
+            border: none;
+            background-color: #059669;
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        button:hover {
+            background-color: #047857;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(5, 150, 105, 0.2);
+        }
+
+        /* Footer Link */
+        .footer-nav {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .btn-back {
+            text-decoration: none;
+            color: #6b7280;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .btn-back:hover {
+            color: #059669;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="upload-card">
+        <h2>Secure Submission</h2>
+        <p class="instruction">Enter your evidence below. It will be immediately processed through the cryptographic pipeline.</p>
+        
+        <form action="/seller/upload" method="POST">
+            <label>Whistleblower Report Payload</label>
+            <textarea name="message" placeholder="Type or paste confidential information here..." required></textarea>
+            
+            <div class="security-banner">
+                <p><strong>Active Encryption:</strong> Data will be transformed via 4-round Feistel Cipher architecture before persistent storage.</p>
+            </div>
+
+            <button type="submit">Encrypt & Transmit to Vault</button>
+        </form>
+        
+        <div class="footer-nav">
+            <a href="/seller/dashboard" class="btn-back">← Back to Management Console</a>
+        </div>
+    </div>
+
+</body>
+</html>

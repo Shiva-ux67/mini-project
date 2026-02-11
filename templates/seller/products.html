@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WhistleSecure | My Products</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: #f0fdf4; color: #064e3b; padding: 40px; display: flex; flex-direction: column; align-items: center; }
+        
+        .card { background: white; border-radius: 12px; border: 1px solid #dcfce7; padding: 30px; width: 100%; max-width: 800px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        
+        /* Form Styling */
+        .add-product-form { 
+            background: #f9fafb; 
+            padding: 20px; 
+            border-radius: 8px; 
+            margin-bottom: 30px; 
+            border: 1px solid #e5e7eb;
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 10px;
+            align-items: end;
+        }
+        
+        .form-group label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 5px; color: #4b5563; }
+        .form-group input, .form-group select { 
+            width: 100%; padding: 8px 12px; border-radius: 6px; border: 1px solid #d1d5db; outline: none; 
+        }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th { text-align: left; padding: 12px; color: #64748b; font-size: 12px; text-transform: uppercase; border-bottom: 1px solid #f1f5f9; }
+        td { padding: 15px 12px; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
+        
+        .btn-submit { background: #059669; color: white; padding: 10px 20px; border-radius: 8px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; }
+        .btn-submit:hover { background: #047857; }
+        
+        .status-pill { padding: 4px 8px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .status-in { background: #dcfce7; color: #166534; }
+        .status-out { background: #fee2e2; color: #991b1b; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2 style="margin-bottom: 20px;">Manage Product Catalog</h2>
+
+        <form class="add-product-form" action="/seller/products" method="POST">
+            <div class="form-group">
+                <label>Product Name</label>
+                <input type="text" name="product_name" placeholder="e.g. Secure Router" required>
+            </div>
+            <div class="form-group">
+                <label>Inventory Status</label>
+                <select name="status">
+                    <option value="In Stock">In Stock</option>
+                    <option value="Out of Stock">Out of Stock</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-submit">Add Product</button>
+        </form>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Item ID</th>
+                    <th>Product Name</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td style="color: #64748b;">#P-{{ product.doc_id }}</td>
+                    <td style="font-weight: 600;">{{ product.name }}</td>
+                    <td>
+                        <span class="status-pill {% if product.status == 'In Stock' %}status-in{% else %}status-out{% endif %}">
+                            {{ product.status }}
+                        </span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <a href="/seller/dashboard" style="display:block; margin-top:25px; color:#059669; text-decoration:none; font-weight:600;">← Back to Dashboard</a>
+    </div>
+</body>
+</html>

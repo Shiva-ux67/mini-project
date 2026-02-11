@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Message Center | Seller</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, sans-serif; }
+        body { background-color: #f0fdf4; padding: 40px; display: flex; flex-direction: column; align-items: center; }
+        .container { width: 100%; max-width: 800px; background: white; border-radius: 12px; padding: 30px; border: 1px solid #dcfce7; }
+        h2 { color: #065f46; margin-bottom: 20px; }
+        .msg-item { padding: 15px; border-bottom: 1px solid #f0fdf4; display: flex; justify-content: space-between; align-items: center; }
+        .msg-info { font-size: 14px; color: #374151; }
+        .status-tag { font-size: 12px; font-weight: 700; color: #059669; text-transform: uppercase; }
+        .btn-link { display: inline-block; margin-top: 20px; color: #059669; text-decoration: none; font-weight: 600; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Outgoing Encrypted Logs</h2>
+        {% for msg_id, msg in messages.items() %}
+            {% if msg.sender == session['username'] %}
+            <div class="msg-item">
+                <div class="msg-info">
+                    <strong>ID: #{{ msg_id }}</strong><br>
+                    <span style="color: #6b7280;">Timestamp: {{ msg.timestamp }}</span>
+                </div>
+                <span class="status-tag">Encrypted & Stored</span>
+            </div>
+            {% endif %}
+        {% endfor %}
+        <a href="/seller/dashboard" class="btn-link">← Return to Console</a>
+    </div>
+</body>
+</html>
