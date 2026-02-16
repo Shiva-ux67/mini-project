@@ -1,35 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>WhistleSecure | Settings</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background-color: #f8fafc; padding: 50px 20px; display: flex; flex-direction: column; align-items: center; }
-        .container { width: 100%; max-width: 600px; background: white; padding: 40px; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .toggle-group { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9; }
-        h2 { color: #0f172a; margin-bottom: 30px; }
-        .btn-save { background: #1e293b; color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; cursor: pointer; font-weight: 600; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h2>Global Settings</h2>
-        <div class="toggle-group">
-            <span>Enable Audit Logging</span>
-            <input type="checkbox" checked>
-        </div>
-        <div class="toggle-group">
-            <span>Maintenance Mode</span>
-            <input type="checkbox">
-        </div>
-        <div class="toggle-group">
-            <span>New User Registration</span>
-            <input type="checkbox" checked>
-        </div>
-        <button class="btn-save">Apply Changes</button>
-        <a href="/admin/dashboard" style="display:block; text-align:center; margin-top:20px; color:#64748b; text-decoration:none; font-size:14px;">Cancel</a>
+{% extends "admin/base_admin.html" %}
+
+{% block title %}System Settings{% endblock %}
+
+{% block content %}
+<style>
+    .card {
+        background: white;
+        padding: 40px;
+        border-radius: 12px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        max-width: 600px;
+    }
+
+    .toggle-group {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .btn-save {
+        background: #1e293b;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 8px;
+        width: 100%;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+
+    .btn-save:hover {
+        background: #0f172a;
+    }
+</style>
+
+<div class="card">
+    <div class="toggle-group">
+        <span style="font-weight: 500; color: #334155;">Enable Audit Logging</span>
+        <input type="checkbox" checked>
     </div>
-</body>
-</html>
+    <div class="toggle-group">
+        <span style="font-weight: 500; color: #334155;">Maintenance Mode</span>
+        <input type="checkbox">
+    </div>
+    <div class="toggle-group">
+        <span style="font-weight: 500; color: #334155;">New User Registration</span>
+        <input type="checkbox" checked>
+    </div>
+
+    <div style="margin-top: 30px;">
+        <button class="btn-save">Save Configuration</button>
+    </div>
+</div>
+{% endblock %}

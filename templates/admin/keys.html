@@ -1,28 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>WhistleSecure | Key Management</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono&display=swap');
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background-color: #f8fafc; color: #1e293b; padding: 50px 20px; display: flex; flex-direction: column; align-items: center; }
-        .container { width: 100%; max-width: 900px; }
-        .card { background: white; border-radius: 12px; border: 1px solid #e2e8f0; padding: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .key-box { background: #f1f5f9; padding: 15px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #2563eb; border-left: 4px solid #2563eb; margin-top: 10px; }
-        .btn-back { display: block; margin-top: 25px; text-decoration: none; color: #64748b; font-weight: 600; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h2 style="margin-bottom: 20px;">System Encryption Keys</h2>
-        <div class="card">
-            <p><strong>Encryption Algorithm:</strong> Feistel Cipher (4 Rounds)</p>
-            <p style="margin-top: 20px; color: #64748b;">Current System Master Key:</p>
-            <div class="key-box">WHISTLE_SECURE_FEISTEL_2026_PROD_v1</div>
-            <p style="margin-top: 20px; font-size: 13px; color: #ef4444;">Warning: Rotating this key will make all previously encrypted evidence unreadable.</p>
-        </div>
-        <a href="/admin/dashboard" class="btn-back">← Return to Dashboard</a>
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Key Management{% endblock %}
+
+{% block content %}
+<style>
+    .card {
+        background: white;
+        border-radius: 12px;
+        border: 1px solid #e2e8f0;
+        padding: 30px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .key-box {
+        background: #f8fafc;
+        padding: 15px;
+        border-radius: 8px;
+        font-family: 'Courier New', monospace;
+        font-size: 14px;
+        color: #2563eb;
+        border-left: 4px solid #2563eb;
+        margin-top: 10px;
+    }
+</style>
+
+<div class="card">
+    <h2 style="margin-bottom: 20px; font-size: 20px; color: #334155;">System Encryption Keys</h2>
+    <p style="color: #64748b; margin-bottom: 20px;"><strong>Encryption Algorithm:</strong> Feistel Cipher (4 Rounds)</p>
+
+    <label style="color: #64748b; font-size: 13px; font-weight: 600; text-transform: uppercase;">Current System Master
+        Key</label>
+    <div class="key-box">WHISTLE_SECURE_FEISTEL_2026_PROD_v1</div>
+
+    <div
+        style="margin-top: 30px; padding: 16px; background-color: #fef2f2; border-radius: 8px; border: 1px solid #fecaca;">
+        <p style="font-size: 13px; color: #b91c1c; font-weight: 600;">⚠️ Warning: Key Rotation Risk</p>
+        <p style="font-size: 13px; color: #7f1d1d; margin-top: 4px;">Rotating this key will permanently render all
+            previously encrypted evidence unreadable. Use with extreme caution.</p>
     </div>
-</body>
-</html>
+</div>
+{% endblock %}

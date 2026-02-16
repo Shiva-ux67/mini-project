@@ -1,222 +1,89 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhistleSecure | Security Audit</title>
-    <style>
-        /* Professional Font Stack */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+{% extends "admin/base_admin.html" %}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', -apple-system, sans-serif;
-        }
+{% block title %}Security Audit{% endblock %}
 
-        body {
-            min-height: 100vh;
-            background-color: #f8fafc; /* Very light slate-grey */
-            color: #1e293b;
-            padding: 50px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+{% block content %}
+<style>
+    .audit-card {
+        background: #ffffff;
+        border-radius: 12px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+    }
 
-        /* Page Layout Container */
-        .dashboard-container {
-            width: 100%;
-            max-width: 1100px;
-            animation: fadeIn 0.6s ease-out;
-        }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+    }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    th {
+        background-color: #f8fafc;
+        padding: 16px 24px;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #64748b;
+        border-bottom: 1px solid #e2e8f0;
+    }
 
-        /* Header Styling */
-        .header-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #e2e8f0;
-        }
+    td {
+        padding: 16px 24px;
+        font-size: 14px;
+        border-bottom: 1px solid #f1f5f9;
+        color: #334155;
+    }
 
-        .title-group h2 {
-            font-size: 28px;
-            font-weight: 700;
-            color: #0f172a;
-            letter-spacing: -0.025em;
-        }
+    tr:last-child td {
+        border-bottom: none;
+    }
 
-        .title-group p {
-            font-size: 14px;
-            color: #64748b;
-            margin-top: 4px;
-        }
+    .user-pill {
+        display: inline-block;
+        background-color: #eff6ff;
+        color: #2563eb;
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 12px;
+    }
 
-        /* Table Card Styling */
-        .audit-card {
-            background: #ffffff;
-            border-radius: 12px;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            overflow: hidden;
-        }
+    .timestamp-code {
+        font-family: 'Courier New', monospace;
+        font-size: 13px;
+        color: #94a3b8;
+    }
+</style>
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-        }
-
-        /* Table Header */
-        thead {
-            background-color: #f1f5f9;
-        }
-
-        th {
-            padding: 16px 24px;
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #475569;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        /* Table Body */
-        td {
-            padding: 18px 24px;
-            font-size: 14px;
-            color: #334155;
-            border-bottom: 1px solid #f1f5f9;
-            transition: background 0.2s;
-        }
-
-        tr:last-child td {
-            border-bottom: none;
-        }
-
-        /* Hover Effect */
-        tr:hover td {
-            background-color: #f8fafc;
-        }
-
-        /* Column Specific Styling */
-        .user-pill {
-            display: inline-block;
-            background-color: #eff6ff;
-            color: #2563eb;
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 13px;
-        }
-
-        .action-text {
-            font-weight: 500;
-            color: #1e293b;
-        }
-
-        .timestamp-code {
-            font-family: 'JetBrains Mono', 'Courier New', monospace;
-            font-size: 13px;
-            color: #94a3b8;
-        }
-
-        /* Back Navigation */
-        .nav-footer {
-            margin-top: 30px;
-            display: flex;
-            justify-content: flex-start;
-        }
-
-        .btn-back {
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            background-color: #0f172a;
-            color: #ffffff;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-
-        .btn-back:hover {
-            background-color: #1e293b;
-            transform: translateX(-4px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Status Badge */
-        .live-badge {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            color: #10b981; /* Success Green */
-        }
-
-        .dot {
-            height: 8px;
-            width: 8px;
-            background-color: #10b981;
-            border-radius: 50%;
-            display: inline-block;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="dashboard-container">
-        
-        <div class="header-section">
-            <div class="title-group">
-                <h2>Security Audit Trail</h2>
-                <p>Monitoring all cryptographic events and system access logs.</p>
-            </div>
-            <div class="live-badge">
-                <span class="dot"></span> SYSTEM LIVE
-            </div>
-        </div>
-
-        <div class="audit-card">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Operator</th>
-                        <th>Activity Logged</th>
-                        <th>System Timestamp</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for log in logs %}
-                    <tr>
-                        <td><span class="user-pill">{{ log.user }}</span></td>
-                        <td class="action-text">{{ log.action }}</td>
-                        <td class="timestamp-code">{{ log.timestamp }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-
-        <div class="nav-footer">
-            <a href="/admin/dashboard" class="btn-back">
-                &larr; Return to Dashboard
-            </a>
-        </div>
-
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h3 style="font-size: 18px; color: #1e293b;">Audit Trail</h3>
+        <span
+            style="color: #10b981; font-size: 12px; font-weight: 600; background: #dcfce7; padding: 4px 12px; border-radius: 20px;">
+            ● SYSTEM LIVE
+        </span>
     </div>
 
-</body>
-</html>
+    <div class="audit-card">
+        <table>
+            <thead>
+                <tr>
+                    <th>Operator</th>
+                    <th>Activity Logged</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in logs %}
+                <tr>
+                    <td><span class="user-pill">{{ log.user }}</span></td>
+                    <td style="font-weight: 500;">{{ log.action }}</td>
+                    <td class="timestamp-code">{{ log.timestamp }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

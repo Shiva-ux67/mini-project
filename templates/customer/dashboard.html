@@ -1,257 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhistleSecure | Customer Workspace</title>
-    <style>
-        /* Modern Font Stack */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap');
+{% extends "customer/base_customer.html" %}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
+{% block title %}Customer Dashboard{% endblock %}
 
-        body {
-            min-height: 100vh;
-            background-color: #f8fafc;
-            color: #1e293b;
-            padding: 40px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+{% block content %}
 
-        .workspace-container {
-            width: 100%;
-            max-width: 1000px;
-            animation: fadeIn 0.6s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Header Section */
-        .header-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        h1 {
-            font-size: 26px;
-            font-weight: 700;
-            color: #0f172a;
-            letter-spacing: -0.02em;
-        }
-
-        .welcome-badge {
-            font-size: 14px;
-            color: #64748b;
-            background: #ffffff;
-            padding: 8px 16px;
-            border-radius: 30px;
-            border: 1px solid #e2e8f0;
-            font-weight: 500;
-        }
-
-        /* NEW: Action Bar for Products */
-        .action-bar {
-            background: #ffffff;
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid #e2e8f0;
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-        }
-
-        .action-text h4 {
-            font-size: 16px;
-            color: #1e293b;
-            margin-bottom: 4px;
-        }
-
-        .action-text p {
-            font-size: 13px;
-            color: #64748b;
-        }
-
-        .btn-primary {
-            text-decoration: none;
-            background-color: #4f46e5;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            transition: all 0.2s;
-            box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
-        }
-
-        .btn-primary:hover {
-            background-color: #4338ca;
-            transform: translateY(-1px);
-            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);
-        }
-
-        /* Section Title */
-        h3 {
-            font-size: 18px;
-            font-weight: 600;
-            color: #475569;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        /* Table Card Styling */
-        .data-card {
-            background: #ffffff;
-            border-radius: 12px;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            overflow: hidden;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f1f5f9;
-            padding: 16px 24px;
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #64748b;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        td {
-            padding: 18px 24px;
-            font-size: 14px;
-            border-bottom: 1px solid #f8fafc;
-            color: #334155;
-        }
-
-        tr:last-child td {
-            border-bottom: none;
-        }
-
-        tr:hover td {
-            background-color: #fdfdff;
-        }
-
-        .snippet-code {
-            font-family: 'JetBrains Mono', monospace;
-            background: #f8fafc;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 13px;
-            color: #6366f1;
-        }
-
-        .btn-action {
-            text-decoration: none;
-            color: #4f46e5;
-            font-weight: 600;
-            font-size: 14px;
-            transition: color 0.2s;
-        }
-
-        .btn-action:hover {
-            color: #3730a3;
-            text-decoration: underline;
-        }
-
-        .nav-footer {
-            margin-top: 35px;
-            display: flex;
-            justify-content: flex-end;
-        }
-
-        .btn-logout {
-            text-decoration: none;
-            color: #94a3b8;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .btn-logout:hover {
-            color: #ef4444;
-        }
-
-    </style>
-</head>
-
-<body>
-
-    <div class="workspace-container">
-        
-        <header class="header-section">
-            <h1>Customer Workspace</h1>
-            <div class="welcome-badge">
-                Authenticated: <strong>{{ session['username'] }}</strong>
-            </div>
-        </header>
-
-        <div class="action-bar">
-            <div class="action-text">
-                <h4>Security Marketplace</h4>
-                <p>Browse and procure high-level cryptographic hardware and software.</p>
-            </div>
-            <a href="/customer/products" class="btn-primary">Browse Security Products</a>
-        </div>
-
-        <section>
-            <h3>Available Secure Evidence</h3>
-            
-            <div class="data-card">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Origin (Sender)</th>
-                            <th>Payload Fragment</th>
-                            <th>Operation</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for msg_id, msg in messages.items() %}
-                        <tr>
-                            <td style="font-weight: 500;">{{ msg.sender }}</td>
-                            <td><span class="snippet-code">{{ msg.encrypted_content[:15] }}...</span></td>
-                            <td>
-                                <a href="/customer/decrypt/{{ msg_id }}" class="btn-action">
-                                    Unlock Record
-                                </a>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        <footer class="nav-footer">
-            <a href="/logout" class="btn-logout">Sign Out</a>
-        </footer>
-
+<div class="stats-grid animate-slide-up">
+    <div class="stat-card" style="border-left-color: var(--customer-primary);">
+        <span class="stat-label">Available Files</span>
+        <!-- Assuming messages is a dict passed to the template -->
+        <span class="stat-value" style="color: var(--customer-primary);">{{ messages|length }}</span>
+        <p class="stat-desc">Encrypted records in your vault</p>
     </div>
 
-</body>
-</html>
+    <div class="stat-card" style="border-left-color: var(--success);">
+        <span class="stat-label">Account Status</span>
+        <span class="stat-value" style="color: var(--success);">Active</span>
+        <p class="stat-desc">Full access to security tools</p>
+    </div>
+</div>
+
+<div class="card animate-slide-up"
+    style="animation-delay: 0.1s; margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
+    <div>
+        <h4 style="font-size: 1.25rem; color: var(--gray-800); margin-bottom: 0.5rem;">Security Marketplace</h4>
+        <p style="color: var(--gray-500); font-size: 0.9rem;">Browse and procure high-level cryptographic hardware.</p>
+    </div>
+    <a href="{{ url_for('customer_products') }}" class="btn btn-primary">Browse Products</a>
+</div>
+
+<div class="table-container animate-slide-up" style="animation-delay: 0.2s;">
+    <div
+        style="background: linear-gradient(135deg, var(--customer-primary) 0%, var(--customer-dark) 100%); padding: 1.5rem; border-bottom: 1px solid var(--gray-200); border-radius: 12px 12px 0 0;">
+        <h3 style="font-size: 1.1rem; font-weight: 600; color: white;">Recent Evidence</h3>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Sender</th>
+                <th>Payload Snippet</th>
+                <th>Received</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for msg_id, msg in messages.items() %}
+            <tr>
+                <td style="font-weight: 600;">{{ msg.sender }}</td>
+                <td>
+                    <div class="code-block"
+                        style="display: inline-block; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">
+                        {{ msg.encrypted_content[:15] }}...
+                    </div>
+                </td>
+                <td style="color: var(--gray-500); font-size: 0.9rem;">{{ msg.timestamp }}</td>
+                <td>
+                    <a href="{{ url_for('customer_decrypt', msg_id=msg_id) }}" class="btn btn-primary"
+                        style="padding: 0.4rem 1rem; font-size: 0.8rem;">View</a>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4" style="text-align: center; color: var(--gray-400); padding: 3rem;">No messages found in
+                    your secure vault.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

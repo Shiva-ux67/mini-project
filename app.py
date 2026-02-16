@@ -9,7 +9,7 @@ from flask import Flask, render_template, request, redirect, session, url_for, f
 from tinydb import TinyDB, Query
 from werkzeug.security import generate_password_hash, check_password_hash
 import crypto_utils as crypto
-import os, re, random
+import os, re, random, base64
 
 app = Flask(__name__)
 app.secret_key = "mfa_secret_key"
@@ -109,38 +109,26 @@ def signup():
         username = request.form.get('username')
         password = request.form.get('password')
         role = request.form.get('role')
-        user_otp = request.form.get('otp')
 
         # Step 1: Check if Email is valid
         if not is_valid_email(email):
             return "<h3>Invalid Email Format!</h3><a href='/signup'>Try again</a>"
 
-        # Step 2: Handle OTP Verification
-        # If the user hasn't provided an OTP yet, generate one
-        if not user_otp:
-            generated_otp = str(random.randint(100000, 999999))
-            session['reg_otp'] = generated_otp
-            print(f"\n[SECURITY ALERT] OTP for {username}: {generated_otp}\n")
-            # Usually, you'd render the same page with a flag to show the OTP field
-            return render_template('signup.html', show_otp=True)
+        # Step 2: Check for Duplicate User (Username or Email)
+        User = Query()
+        if users_table.search((User.username == username) | (User.email == email)):
+            return "<h3>User already exists!</h3><p>Username or Email already taken.</p><a href='/signup'>Try again</a>"
 
-        # Step 3: Verify the OTP
-        if user_otp == session.get('reg_otp'):
-            # Clear OTP from session
-            session.pop('reg_otp', None)
-            
-            # Hash password and save to DB
-            hashed_pw = generate_password_hash(password, method='pbkdf2:sha256')
-            users_table.insert({
-                'username': username, 
-                'email': email, 
-                'password': hashed_pw, 
-                'role': role
-            })
-            
-            return redirect(url_for('login'))
-        else:
-            return "<h3>Incorrect OTP!</h3><a href='/signup'>Try again</a>"
+        # Step 3: Hash password and save to DB
+        hashed_pw = generate_password_hash(password, method='pbkdf2:sha256')
+        users_table.insert({
+            'username': username, 
+            'email': email, 
+            'password': hashed_pw, 
+            'role': role
+        })
+        
+        return redirect(url_for('login'))
 
     return render_template('signup.html')
 
@@ -155,6 +143,10 @@ def login():
         user = users_table.get(User.username == username)
         
         if user and check_password_hash(user['password'], password_candidate):
+            # Check if user is active
+            if not user.get('active', True):
+                return "<h3>Account Deactivated</h3><p>Please contact the administrator.</p><a href='/login'>Go Back</a>"
+
             session['username'] = username
             session['role'] = user['role']
             
@@ -212,6 +204,47 @@ def admin_settings():
     if session.get('role') != 'Admin': return redirect(url_for('login'))
     return render_template('admin/settings.html')
 
+@app.route('/admin/toggle_status', methods=['POST'])
+def admin_toggle_status():
+    if session.get('role') != 'Admin': return redirect(url_for('login'))
+    
+    username = request.form['username']
+    User = Query()
+    user = users_table.get(User.username == username)
+    
+    if user:
+        new_status = not user.get('active', True)
+        users_table.update({'active': new_status}, User.username == username)
+        
+        audit_table.insert({
+            'user': session['username'],
+            'action': f"Toggled status for {username} to {new_status}",
+            'timestamp': get_timestamp()
+        })
+        
+    return redirect(url_for('admin_users'))
+
+@app.route('/admin/messages')
+def admin_messages():
+    if session.get('role') != 'Admin': return redirect(url_for('login'))
+    
+    all_messages = messages_table.all()
+    # Decrypt messages for admin view using system key
+    system_key = "FEISTEL_KEY_2026"
+    
+    decrypted_messages = []
+    for msg in all_messages:
+        try:
+            # Attempt to decrypt for preview
+            plaintext = feistel_decrypt(msg['encrypted_content'], system_key)
+        except:
+            plaintext = "[Decryption Failed]"
+            
+        msg['decrypted_preview'] = plaintext
+        decrypted_messages.append(msg)
+        
+    return render_template('admin/messages.html', messages=decrypted_messages)
+
 # --- SELLER ROUTES ---
 
 @app.route('/seller/dashboard')
@@ -224,20 +257,36 @@ def seller_upload():
     if session.get('role') != 'Seller': return redirect(url_for('login'))
 
     if request.method == 'POST':
-        raw_message = request.form['message']
-        # SYSTEM KEY for Feistel rounds
-        system_key = "FEISTEL_KEY_2026" 
-        encrypted_msg = feistel_encrypt(raw_message, system_key)
-        
+        system_key = "FEISTEL_KEY_2026"
+        encrypted_msg = ""
+        msg_type = "text"
+        filename = None
+
+        # Check for file upload
+        if 'file' in request.files and request.files['file'].filename != '':
+            file = request.files['file']
+            file_data = file.read()
+            # Convert binary to base64 string for encryption
+            b64_data = base64.b64encode(file_data).decode('utf-8')
+            encrypted_msg = feistel_encrypt(b64_data, system_key)
+            msg_type = "file"
+            filename = file.filename
+        else:
+            # Fallback to text message
+            raw_message = request.form.get('message', '')
+            encrypted_msg = feistel_encrypt(raw_message, system_key)
+
         messages_table.insert({
             'sender': session['username'],
             'encrypted_content': encrypted_msg,
-            'timestamp': get_timestamp()
+            'timestamp': get_timestamp(),
+            'item_type': msg_type,
+            'filename': filename
         })
         
         audit_table.insert({
             'user': session['username'],
-            'action': 'Encrypted Submission Created',
+            'action': f'Encrypted {msg_type.title()} Uploaded',
             'timestamp': get_timestamp()
         })
         return redirect(url_for('seller_files'))
@@ -351,7 +400,17 @@ def customer_decrypt(msg_id):
                 'timestamp': get_timestamp()
             })
 
-    return render_template('customer/decrypt.html', encrypted_val=encrypted_val, decrypted_msg=decrypted_msg, error=error)
+    msg_type = msg.get('item_type', 'text')
+    filename = msg.get('filename', 'decrypted_file')
+
+    # ... post logic ...
+
+    return render_template('customer/decrypt.html', 
+                           encrypted_val=encrypted_val, 
+                           decrypted_msg=decrypted_msg, 
+                           error=error,
+                           msg_type=msg_type,
+                           filename=filename)
 
 # --- EXECUTION ---
 if __name__ == '__main__':

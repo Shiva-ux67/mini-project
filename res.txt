@@ -46,3 +46,7 @@ WhistleSecure_Project/
         ├── files.html
         ├── decrypt.html
         └── messages.html
+
+
+
+SMTP : for mail verification

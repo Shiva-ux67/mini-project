@@ -155,6 +155,155 @@
             font-weight: 600;
             margin-bottom: 20px;
         }
+
+
+
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+    :root {
+        --claude-orange: #d97757;
+        --dark-text: #1a1a1a;
+        --sub-text: #666666;
+        --bg-white: #ffffff;
+        --border-gray: #e5e7eb;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Inter', sans-serif;
+    }
+
+    body {
+        min-height: 100vh;
+        background-color: var(--bg-white);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        position: relative;
+    }
+
+    /* --- THE ANIMATED BACKGROUND CIRCLE --- */
+    .bg-circle {
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, rgba(217, 119, 87, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+        border-radius: 50%;
+        z-index: -1;
+        filter: blur(40px);
+        animation: orbit 20s linear infinite;
+    }
+
+    @keyframes orbit {
+        from { transform: rotate(0deg) translateX(150px) rotate(0deg); }
+        to { transform: rotate(360deg) translateX(150px) rotate(-360deg); }
+    }
+
+    /* --- THE HEADER --- */
+    header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        padding: 20px 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--border-gray);
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        z-index: 100;
+    }
+
+    .logo {
+        font-weight: 800;
+        font-size: 20px;
+        color: var(--dark-text);
+        text-decoration: none;
+    }
+
+    .logo span { color: var(--claude-orange); }
+
+    /* --- LOGIN CARD --- */
+    .login-card {
+        background: #ffffff;
+        padding: 48px;
+        border-radius: 24px;
+        width: 100%;
+        max-width: 420px;
+        border: 1px solid var(--border-gray);
+        box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.05);
+        animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        z-index: 10;
+    }
+
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+        font-size: 28px;
+        font-weight: 800;
+        margin-bottom: 8px;
+        letter-spacing: -1px;
+    }
+
+    .sub-msg {
+        color: var(--sub-text);
+        font-size: 14px;
+        margin-bottom: 30px;
+    }
+
+    /* --- FORMS --- */
+    .form-label {
+        display: block;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--dark-text);
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    input {
+        width: 100%;
+        padding: 14px 16px;
+        margin-bottom: 20px;
+        border-radius: 12px;
+        border: 1px solid var(--border-gray);
+        background: #f9fafb;
+        transition: all 0.2s;
+    }
+
+    input:focus {
+        outline: none;
+        border-color: var(--claude-orange);
+        background: #fff;
+        box-shadow: 0 0 0 4px rgba(217, 119, 87, 0.1);
+    }
+
+    .btn-login {
+        width: 100%;
+        background: var(--dark-text);
+        color: white;
+        padding: 16px;
+        border-radius: 12px;
+        border: none;
+        font-weight: 600;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .btn-login:hover {
+        background: #333;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
     </style>
 </head>
 

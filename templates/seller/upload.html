@@ -1,171 +1,103 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhistleSecure | Secure Submission</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap');
+{% extends "seller/base_seller.html" %}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
+{% block title %}Upload Data{% endblock %}
 
-        body {
-            min-height: 100vh;
-            background-color: #f0fdf4; /* Matching Emerald background */
-            color: #064e3b;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+{% block content %}
+<style>
+    .upload-box {
+        background: white;
+        padding: 40px;
+        border-radius: 16px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        max-width: 700px;
+        margin: 0 auto;
+    }
 
-        .upload-card {
-            width: 100%;
-            max-width: 650px;
-            background: #ffffff;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px -5px rgba(6, 78, 59, 0.1);
-            padding: 40px;
-            border: 1px solid #dcfce7;
-            animation: fadeIn 0.5s ease-in-out;
-        }
+    .form-group {
+        margin-bottom: 24px;
+    }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    label {
+        display: block;
+        font-weight: 600;
+        font-size: 14px;
+        color: #1e293b;
+        margin-bottom: 8px;
+    }
 
-        h2 {
-            font-size: 26px;
-            font-weight: 800;
-            color: #065f46;
-            margin-bottom: 10px;
-            letter-spacing: -0.02em;
-        }
+    textarea {
+        width: 100%;
+        padding: 16px;
+        border-radius: 8px;
+        border: 2px solid #e2e8f0;
+        font-family: 'Inter', sans-serif;
+        font-size: 14px;
+        min-height: 150px;
+        resize: vertical;
+        outline: none;
+        transition: border-color 0.2s;
+    }
 
-        .instruction {
-            font-size: 14px;
-            color: #059669;
-            margin-bottom: 25px;
-        }
+    textarea:focus {
+        border-color: #059669;
+    }
 
-        /* Message Input Area */
-        label {
-            font-size: 13px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #374151;
-            margin-bottom: 8px;
-            display: block;
-        }
+    .btn-submit {
+        background-color: #059669;
+        color: white;
+        width: 100%;
+        padding: 14px;
+        border-radius: 8px;
+        border: none;
+        font-weight: 600;
+        font-size: 15px;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
 
-        textarea {
-            width: 100%;
-            padding: 18px;
-            border-radius: 12px;
-            border: 2px solid #e2e8f0;
-            background-color: #f8fafc;
-            font-family: 'JetBrains Mono', monospace; /* Monospace for technical feel */
-            font-size: 14px;
-            color: #1e293b;
-            outline: none;
-            resize: vertical;
-            min-height: 160px;
-            transition: all 0.2s;
-        }
+    .btn-submit:hover {
+        background-color: #047857;
+    }
 
-        textarea:focus {
-            border-color: #10b981;
-            background-color: #ffffff;
-            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
-        }
+    .encryption-note {
+        margin-top: 16px;
+        font-size: 12px;
+        color: #64748b;
+        text-align: center;
+        background: #f0fdf4;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #dcfce7;
+    }
+</style>
 
-        /* Security Feature Box */
-        .security-banner {
-            background-color: #ecfdf5;
-            border-left: 4px solid #10b981;
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin-top: 25px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .security-banner p {
-            font-size: 13px;
-            color: #065f46;
-            line-height: 1.5;
-            font-weight: 500;
-        }
-
-        /* Encrypt Button */
-        button {
-            width: 100%;
-            margin-top: 25px;
-            padding: 16px;
-            border-radius: 12px;
-            border: none;
-            background-color: #059669;
-            color: white;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        button:hover {
-            background-color: #047857;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(5, 150, 105, 0.2);
-        }
-
-        /* Footer Link */
-        .footer-nav {
-            margin-top: 30px;
-            text-align: center;
-        }
-
-        .btn-back {
-            text-decoration: none;
-            color: #6b7280;
-            font-size: 14px;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        .btn-back:hover {
-            color: #059669;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="upload-card">
-        <h2>Secure Submission</h2>
-        <p class="instruction">Enter your evidence below. It will be immediately processed through the cryptographic pipeline.</p>
-        
-        <form action="/seller/upload" method="POST">
-            <label>Whistleblower Report Payload</label>
-            <textarea name="message" placeholder="Type or paste confidential information here..." required></textarea>
-            
-            <div class="security-banner">
-                <p><strong>Active Encryption:</strong> Data will be transformed via 4-round Feistel Cipher architecture before persistent storage.</p>
-            </div>
-
-            <button type="submit">Encrypt & Transmit to Vault</button>
-        </form>
-        
-        <div class="footer-nav">
-            <a href="/seller/dashboard" class="btn-back">← Back to Management Console</a>
-        </div>
+<div class="upload-box">
+    <div style="text-align: center; margin-bottom: 30px;">
+        <h2 style="font-size: 24px; font-weight: 700; color: #1e293b; margin-bottom: 8px;">Secure Data Transmission</h2>
+        <p style="color: #64748b; font-size: 14px;">All data is automatically encrypted with Feistel Cipher (Keyspace
+            2026) before storage.</p>
     </div>
 
-</body>
-</html>
+    <form method="POST" enctype="multipart/form-data">
+        <!-- Tab Switching Logic (Simple CSS/JS for demo or just stacked) -->
+        <div class="form-group">
+            <label for="file">Upload Document (PDF)</label>
+            <input type="file" name="file" id="file" accept=".pdf,.doc,.docx,.txt"
+                style="padding: 10px; border: 2px dashed #cbd5e1; width: 100%; background: #f8fafc; cursor: pointer;">
+            <p style="font-size: 0.8rem; color: #64748b; margin-top: 5px;">Or enter text below:</p>
+        </div>
+
+        <div class="form-group">
+            <label for="message">Sensitive Text Payload</label>
+            <textarea name="message" id="message" placeholder="Enter sensitive data here..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit">Encrypt & Upload</button>
+
+        <div class="encryption-note">
+            🔒 End-to-End Encryption Active
+        </div>
+    </form>
+</div>
+{% endblock %}

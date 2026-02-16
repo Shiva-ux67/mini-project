@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhistleSecure | Seller</title>
+    <!-- Use the single link to style.css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body class="theme-seller">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <span style="font-size: 24px;">📦</span> WhistleSecure
+        </div>
+        <ul class="nav-links">
+            <li class="nav-item">
+                <a href="{{ url_for('seller_dashboard') }}"
+                    class="nav-link {{ 'active' if request.endpoint == 'seller_dashboard' else '' }}">
+                    <span class="nav-icon">📊</span> Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url_for('seller_upload') }}"
+                    class="nav-link {{ 'active' if request.endpoint == 'seller_upload' else '' }}">
+                    <span class="nav-icon">📤</span> Upload Data
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url_for('seller_files') }}"
+                    class="nav-link {{ 'active' if request.endpoint == 'seller_files' else '' }}">
+                    <span class="nav-icon">📁</span> My Files
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url_for('seller_messages') }}"
+                    class="nav-link {{ 'active' if request.endpoint == 'seller_messages' else '' }}">
+                    <span class="nav-icon">💬</span> Messages
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url_for('seller_products') }}"
+                    class="nav-link {{ 'active' if request.endpoint == 'seller_products' else '' }}">
+                    <span class="nav-icon">📦</span> Manage Products
+                </a>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+            <a href="{{ url_for('logout') }}" class="btn btn-danger btn-block">Sign Out</a>
+        </div>
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="main-content">
+        <header class="page-header animate-slide-up"
+            style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
+            <h1 class="page-title" style="font-size: 1.75rem; font-weight: 800; color:var(--gray-900);">
+                {% block title %}Seller Workspace{% endblock %}
+            </h1>
+            <div class="user-badge" style="display: flex; align-items: center; gap: 10px;">
+                <span class="badge badge-success">Seller Access</span>
+                <span style="font-weight: 600; color: var(--gray-600);">{{ session['username'] }}</span>
+            </div>
+        </header>
+
+        <div class="content-wrapper animate-slide-up" style="animation-delay: 0.1s;">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+</body>
+
+</html>

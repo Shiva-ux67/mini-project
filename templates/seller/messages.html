@@ -1,0 +1,62 @@
+{% extends "seller/base_seller.html" %}
+
+{% block title %}Messages{% endblock %}
+
+{% block content %}
+<style>
+    .msg-card {
+        background: white;
+        border-radius: 12px;
+        border: 1px solid #e2e8f0;
+        padding: 20px;
+        margin-bottom: 16px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .msg-info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .sender {
+        font-weight: 600;
+        color: #1e293b;
+        font-size: 15px;
+    }
+
+    .timestamp {
+        font-size: 13px;
+        color: #64748b;
+    }
+</style>
+
+<div class="card" style="border:none; background:transparent; box-shadow:none; padding:0;">
+    <div style="margin-bottom: 24px;">
+        <h3 style="font-size: 18px; color: #1e293b;">Messages</h3>
+        <p style="color: #64748b; font-size: 14px;">System communications.</p>
+    </div>
+
+    {% if messages %}
+    {% for msg_id, msg in messages.items() %}
+    <div class="msg-card">
+        <div class="msg-info">
+            <span class="sender">From: {{ msg.sender }}</span>
+            <span class="timestamp">{{ msg.timestamp }}</span>
+        </div>
+        <!-- Sellers just view logs of their own messages usually, or systemic ones -->
+        <span
+            style="font-size: 12px; color: #059669; background: #ecfdf5; padding: 4px 8px; border-radius: 4px;">Sent</span>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div
+        style="background: white; padding: 40px; border-radius: 12px; border: 1px solid #e2e8f0; text-align: center; color: #94a3b8;">
+        No messages found.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

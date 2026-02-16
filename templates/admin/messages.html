@@ -1,0 +1,96 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Decrypted Data Vault{% endblock %}
+
+{% block content %}
+<style>
+    .msg-card {
+        background: white;
+        border-radius: 12px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+        margin-bottom: 20px;
+    }
+
+    .msg-header {
+        background: #f8fafc;
+        padding: 15px 20px;
+        border-bottom: 1px solid #e2e8f0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .sender-tag {
+        font-weight: 600;
+        color: #0f172a;
+        font-size: 14px;
+    }
+
+    .time-tag {
+        font-size: 12px;
+        color: #64748b;
+    }
+
+    .msg-body {
+        padding: 20px;
+    }
+
+    .label {
+        font-size: 11px;
+        text-transform: uppercase;
+        color: #94a3b8;
+        font-weight: 700;
+        margin-bottom: 6px;
+        display: block;
+    }
+
+    .content-box {
+        background: #f1f5f9;
+        padding: 12px;
+        border-radius: 6px;
+        font-family: 'Courier New', monospace;
+        font-size: 13px;
+        color: #334155;
+        word-break: break-all;
+        margin-bottom: 16px;
+    }
+
+    .decrypted-box {
+        background: #ecfdf5;
+        border: 1px solid #a7f3d0;
+        color: #065f46;
+    }
+</style>
+
+<div class="card" style="border:none; padding: 0; box-shadow: none;">
+    <div style="margin-bottom: 20px;">
+        <h3 style="font-size: 18px; color: #1e293b;">Secure Message Vault</h3>
+        <p style="color: #64748b; font-size: 14px;">Master view of all system communications (Auto-Decrypted with System
+            Key)</p>
+    </div>
+
+    {% for msg in messages %}
+    <div class="msg-card">
+        <div class="msg-header">
+            <span class="sender-tag">From: {{ msg.sender }}</span>
+            <span class="time-tag">{{ msg.timestamp }}</span>
+        </div>
+        <div class="msg-body">
+            <span class="label">Encrypted Ciphertext</span>
+            <div class="content-box">{{ msg.encrypted_content }}</div>
+
+            <span class="label" style="color: #10b981;">Decrypted Content</span>
+            <div class="content-box decrypted-box">
+                {{ msg.decrypted_preview }}
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div style="text-align: center; padding: 40px; color: #94a3b8;">
+        No messages found in the vault.
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

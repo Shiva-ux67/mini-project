@@ -1,49 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>WhistleSecure | My Submissions</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono&display=swap');
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background-color: #f0fdf4; color: #064e3b; padding: 50px 20px; display: flex; flex-direction: column; align-items: center; }
-        .container { width: 100%; max-width: 900px; }
-        
-        .card { background: white; border-radius: 16px; border: 1px solid #dcfce7; box-shadow: 0 4px 12px rgba(0,0,0,0.05); overflow: hidden; }
-        table { width: 100%; border-collapse: collapse; }
-        th { background: #f8fafc; padding: 16px; text-align: left; font-size: 12px; text-transform: uppercase; color: #64748b; border-bottom: 1px solid #e2e8f0; }
-        td { padding: 16px; font-size: 14px; border-bottom: 1px solid #f0fdf4; }
-        
-        .hash { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #059669; background: #ecfdf5; padding: 4px 8px; border-radius: 4px; }
-        .btn-back { display: block; margin-top: 25px; text-decoration: none; color: #059669; font-weight: 600; font-size: 14px; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h2 style="margin-bottom: 20px;">My Secure Submissions</h2>
-        <div class="card">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Message ID</th>
-                        <th>Encrypted Payload (Preview)</th>
-                        <th>Timestamp</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for msg_id, msg in messages.items() %}
-                    {% if msg.sender == session['username'] %}
-                    <tr>
-                        <td>#{{ msg_id }}</td>
-                        <td><span class="hash">{{ msg.encrypted_content[:20] }}...</span></td>
-                        <td style="color: #64748b;">{{ msg.timestamp }}</td>
-                    </tr>
-                    {% endif %}
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <a href="/seller/dashboard" class="btn-back">← Back to Console</a>
+{% extends "seller/base_seller.html" %}
+
+{% block title %}My Uploads{% endblock %}
+
+{% block content %}
+<style>
+    .file-card {
+        background: white;
+        border-radius: 12px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        padding: 24px;
+        margin-bottom: 20px;
+    }
+
+    .file-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+    }
+
+    .file-meta {
+        font-size: 13px;
+        color: #64748b;
+    }
+
+    .snippet-box {
+        background: #f8fafc;
+        padding: 12px;
+        border-radius: 8px;
+        font-family: 'Courier New', monospace;
+        font-size: 13px;
+        color: #334155;
+        border: 1px solid #e2e8f0;
+        word-break: break-all;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+    }
+</style>
+
+<div class="card" style="border:none; box-shadow:none; padding:0; background:transparent;">
+    <div style="margin-bottom: 24px;">
+        <h3 style="font-size: 18px; color: #1e293b;">Submission History</h3>
+        <p style="color: #64748b; font-size: 14px;">Encrypted records of your uploads.</p>
     </div>
-</body>
-</html>
+
+    <div class="grid-container">
+        {% for msg_id, msg in messages.items() %}
+        <div class="file-card">
+            <div class="file-header">
+                <span style="font-weight: 700; color: #1e293b;">Record #{{ msg_id }}</span>
+                <span class="file-meta">{{ msg.timestamp }}</span>
+            </div>
+
+            <div class="snippet-box">
+                {{ msg.encrypted_content[:35] }}...
+            </div>
+        </div>
+        {% else %}
+        <div
+            style="grid-column: 1 / -1; text-align: center; color: #94a3b8; padding: 40px; background: white; border-radius: 12px; border: 1px solid #e2e8f0;">
+            No uploads found.
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

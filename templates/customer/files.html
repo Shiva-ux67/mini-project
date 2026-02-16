@@ -1,31 +1,103 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>WhistleSecure | Records</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono&display=swap');
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background-color: #f1f5f9; padding: 50px 20px; display: flex; flex-direction: column; align-items: center; }
-        .container { width: 100%; max-width: 800px; background: white; border-radius: 16px; border: 1px solid #e2e8f0; padding: 40px; }
-        .file-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border: 1px solid #f1f5f9; border-radius: 8px; margin-bottom: 10px; transition: background 0.2s; }
-        .file-item:hover { background: #f8fafc; }
-        .btn-decrypt { background: #4f46e5; color: white; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 600; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h2 style="margin-bottom: 25px;">Evidence Repository</h2>
+{% extends "customer/base_customer.html" %}
+
+{% block title %}Evidence Files{% endblock %}
+
+{% block content %}
+<style>
+    .file-card {
+        background: white;
+        border-radius: 12px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        padding: 24px;
+        margin-bottom: 20px;
+        transition: transform 0.2s;
+    }
+
+    .file-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .file-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+    }
+
+    .file-id {
+        font-weight: 700;
+        color: #1e293b;
+        font-size: 15px;
+    }
+
+    .file-meta {
+        font-size: 13px;
+        color: #64748b;
+    }
+
+    .snippet-box {
+        background: #f8fafc;
+        padding: 12px;
+        border-radius: 8px;
+        font-family: 'Courier New', monospace;
+        font-size: 13px;
+        color: #334155;
+        border: 1px solid #e2e8f0;
+        margin-bottom: 16px;
+        word-break: break-all;
+    }
+
+    .btn-action {
+        background-color: #4f46e5;
+        color: white;
+        text-decoration: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 600;
+        display: inline-block;
+        transition: background 0.2s;
+    }
+
+    .btn-action:hover {
+        background-color: #4338ca;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+    }
+</style>
+
+<div class="card" style="border:none; box-shadow:none; padding:0; background:transparent;">
+    <div style="margin-bottom: 24px;">
+        <h3 style="font-size: 18px; color: #1e293b;">Secure Evidence Repository</h3>
+        <p style="color: #64748b; font-size: 14px;">Access and decrypt your assigned payload fragments.</p>
+    </div>
+
+    <div class="grid-container">
         {% for msg_id, msg in messages.items() %}
-        <div class="file-item">
-            <div>
-                <p style="font-weight: 600; font-size: 14px;">Record #{{ msg_id }}</p>
-                <p style="font-size: 12px; color: #64748b; font-family: 'JetBrains Mono';">{{ msg.encrypted_content[:10] }}...</p>
+        <div class="file-card">
+            <div class="file-header">
+                <span class="file-id">Record #{{ msg_id }}</span>
+                <span class="file-meta">{{ msg.timestamp }}</span>
             </div>
-            <a href="/customer/decrypt/{{ msg_id }}" class="btn-decrypt">View & Decrypt</a>
+
+            <div class="snippet-box">
+                {{ msg.encrypted_content[:30] }}...
+            </div>
+
+            <a href="{{ url_for('customer_decrypt', msg_id=msg_id) }}" class="btn-action">Decrypt File</a>
+        </div>
+        {% else %}
+        <div
+            style="grid-column: 1 / -1; text-align: center; color: #94a3b8; padding: 40px; background: white; border-radius: 12px; border: 1px solid #e2e8f0;">
+            No files available in repository.
         </div>
         {% endfor %}
-        <a href="/customer/dashboard" style="display:block; margin-top:30px; text-align:center; color:#64748b; text-decoration:none; font-size:14px;">Back to Dashboard</a>
     </div>
-</body>
-</html>
+</div>
+{% endblock %}

@@ -1,0 +1,84 @@
+{% extends "customer/base_customer.html" %}
+
+{% block title %}Messages{% endblock %}
+
+{% block content %}
+<style>
+    .msg-card {
+        background: white;
+        border-radius: 12px;
+        border: 1px solid #e2e8f0;
+        padding: 20px;
+        margin-bottom: 16px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: transform 0.2s;
+    }
+
+    .msg-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .msg-info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .sender {
+        font-weight: 600;
+        color: #1e293b;
+        font-size: 15px;
+    }
+
+    .timestamp {
+        font-size: 13px;
+        color: #64748b;
+    }
+
+    .btn-outline {
+        border: 1px solid #e2e8f0;
+        background: white;
+        color: #4f46e5;
+        padding: 8px 16px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 13px;
+        transition: all 0.2s;
+    }
+
+    .btn-outline:hover {
+        border-color: #4f46e5;
+        background: #4f46e5;
+        color: white;
+    }
+</style>
+
+<div class="card" style="border:none; background:transparent; box-shadow:none; padding:0;">
+    <div style="margin-bottom: 24px;">
+        <h3 style="font-size: 18px; color: #1e293b;">Secure Inbox</h3>
+        <p style="color: #64748b; font-size: 14px;">Encrypted communications from the network.</p>
+    </div>
+
+    {% if messages %}
+    {% for msg_id, msg in messages.items() %}
+    <div class="msg-card">
+        <div class="msg-info">
+            <span class="sender">From: {{ msg.sender }}</span>
+            <span class="timestamp">{{ msg.timestamp }}</span>
+        </div>
+        <a href="{{ url_for('customer_decrypt', msg_id=msg_id) }}" class="btn-outline">Read Message</a>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div
+        style="background: white; padding: 40px; border-radius: 12px; border: 1px solid #e2e8f0; text-align: center; color: #94a3b8;">
+        Your secure inbox is currently empty.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

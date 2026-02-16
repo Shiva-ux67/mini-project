@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhistleSecure | Admin</title>
+    <!-- Use the single link to style.css -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body class="theme-admin">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar slide-in">
+        <div class="sidebar-header">
+            <span style="font-size: 24px;">🛡️</span> WhistleSecure
+        </div>
+        <ul class="nav-links">
+            <li class="nav-item">
+                <a href="{{ url_for('admin_dashboard') }}"
+                    class="nav-link {{ 'active' if request.endpoint == 'admin_dashboard' else '' }}">
+                    <span class="nav-icon">📊</span> Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url_for('admin_users') }}"
+                    class="nav-link {{ 'active' if request.endpoint == 'admin_users' else '' }}">
+                    <span class="nav-icon">👥</span> Users
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url_for('admin_audit') }}"
+                    class="nav-link {{ 'active' if request.endpoint == 'admin_audit' else '' }}">
+                    <span class="nav-icon">📜</span> Audit Logs
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url_for('admin_messages') }}"
+                    class="nav-link {{ 'active' if request.endpoint == 'admin_messages' else '' }}">
+                    <span class="nav-icon">🔓</span> Decrypted Data
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url_for('admin_keys') }}"
+                    class="nav-link {{ 'active' if request.endpoint == 'admin_keys' else '' }}">
+                    <span class="nav-icon">🔑</span> Key Management
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url_for('admin_settings') }}"
+                    class="nav-link {{ 'active' if request.endpoint == 'admin_settings' else '' }}">
+                    <span class="nav-icon">⚙️</span> Settings
+                </a>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+            <a href="{{ url_for('logout') }}" class="btn btn-danger btn-block">Sign Out</a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <header class="page-header animate-slide-up"
+            style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center;">
+            <h1 class="page-title" style="font-size: 1.75rem; font-weight: 800; color:var(--gray-900);">
+                {% block title %}Dashboard{% endblock %}
+            </h1>
+            <div class="user-badge" style="display: flex; align-items: center; gap: 10px;">
+                <span class="badge badge-info">Admin Access</span>
+                <span style="font-weight: 600; color: var(--gray-600);">{{ session['username'] }}</span>
+            </div>
+        </header>
+
+        <div class="content-wrapper animate-slide-up" style="animation-delay: 0.1s;">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+</body>
+
+</html>
