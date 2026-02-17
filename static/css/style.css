@@ -768,6 +768,65 @@ body.theme-customer input:focus {
     color: var(--customer-primary);
 }
 
+/* --- AUTH PAGES --- */
+.auth-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding-top: 80px;
+    /* Offset for navbar */
+    padding-bottom: 2rem;
+    background-color: var(--gray-50);
+}
+
+.auth-card {
+    background: white;
+    padding: 3rem;
+    border-radius: var(--radius-xl);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    width: 100%;
+    max-width: 450px;
+    border: 1px solid var(--gray-200);
+    text-align: center;
+    animation: slideUp 0.5s ease-out;
+}
+
+.signup-card-wide {
+    max-width: 600px;
+}
+
+.auth-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--gray-900);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.5px;
+}
+
+.auth-subtitle {
+    color: var(--gray-500);
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+    display: block;
+}
+
+.auth-footer {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--gray-500);
+}
+
+.auth-footer a {
+    color: var(--admin-primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+
 /* Footer */
 .main-footer {
     text-align: center;
