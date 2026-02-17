@@ -145,7 +145,7 @@ def login():
         if user and check_password_hash(user['password'], password_candidate):
             # Check if user is active
             if not user.get('active', True):
-                return "<h3>Account Deactivated</h3><p>Please contact the administrator.</p><a href='/login'>Go Back</a>"
+                return render_template('account_deactivated.html')
 
             session['username'] = username
             session['role'] = user['role']
@@ -324,6 +324,29 @@ def seller_products():
     # GET request: Show the products
     all_products = products_table.all()
     return render_template('seller/products.html', products=all_products)
+
+@app.route('/seller/delete_product/<int:product_id>', methods=['POST'])
+def seller_delete_product(product_id):
+    if session.get('role') != 'Seller': 
+        return redirect(url_for('login'))
+    
+    print(f"DEBUG: Attempting to delete product {product_id} by {session.get('username')}")
+    
+    # Verify ownership before deleting
+    product = products_table.get(doc_id=product_id)
+    print(f"DEBUG: Found product: {product}")
+    
+    if product:
+        print(f"DEBUG: Product owner: {product.get('seller')}, Session user: {session['username']}")
+        if product.get('seller') == session['username']:
+            products_table.remove(doc_ids=[product_id])
+            print("DEBUG: Product deleted successfully")
+        else:
+            print("DEBUG: Ownership mismatch")
+    else:
+        print("DEBUG: Product not found")
+        
+    return redirect(url_for('seller_products'))
 @app.route('/seller/messages')
 def seller_messages():
     if session.get('role') != 'Seller': return redirect(url_for('login'))

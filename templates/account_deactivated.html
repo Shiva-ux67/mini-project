@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Deactivated</title>
+    <!-- Import Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Link to Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/account_deactivated.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h3>Account Deactivated</h3>
+        <p>Your account has been deactivated by the administrator.<br>Please contact support for assistance.</p>
+        <a href="{{ url_for('login') }}" class="btn">Go Back</a>
+    </div>
+</body>
+
+</html>

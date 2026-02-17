@@ -230,7 +230,7 @@ body.theme-customer .sidebar {
     list-style: none;
     padding: 1.5rem 1rem;
     flex: 1;
-    
+
 
 }
 
@@ -581,4 +581,199 @@ body.theme-customer input:focus {
     font-size: 0.85rem;
     overflow-x: auto;
 }
- 
+
+/* --- HOME PAGE & NAVIGATION --- */
+
+/* Navbar */
+.main-navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--gray-900);
+    text-decoration: none;
+    letter-spacing: -0.5px;
+}
+
+.nav-logo span {
+    color: var(--admin-primary);
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.nav-item {
+    text-decoration: none;
+    color: var(--gray-600);
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-item:hover {
+    color: var(--admin-primary);
+}
+
+.nav-btn {
+    text-decoration: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.btn-login {
+    color: var(--admin-primary);
+    background: transparent;
+}
+
+.btn-login:hover {
+    background: var(--admin-light);
+}
+
+.btn-register {
+    background: var(--admin-primary);
+    color: white;
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
+}
+
+.btn-register:hover {
+    background: var(--admin-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(37, 99, 235, 0.3);
+}
+
+/* Home Page Layout */
+.home-wrapper {
+    padding-top: 80px;
+    /* Space for fixed navbar */
+    min-height: 100vh;
+}
+
+/* Hero Section */
+.hero-section {
+    padding: 4rem 2rem;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    animation: fadeIn 0.8s ease-out;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.2;
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    color: var(--gray-500);
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Roles Grid */
+.roles-section {
+    max-width: 1200px;
+    margin: 4rem auto;
+    padding: 0 2rem;
+}
+
+.roles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.role-card {
+    background: white;
+    padding: 2.5rem;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--gray-200);
+    transition: all 0.3s ease;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.role-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+    border-color: transparent;
+}
+
+.role-icon {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    display: inline-block;
+    padding: 1rem;
+    border-radius: 50%;
+    background: var(--gray-50);
+}
+
+.role-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--gray-900);
+}
+
+.role-desc {
+    color: var(--gray-500);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+/* Role Specific Accents on Hover */
+.role-card.admin:hover .role-icon {
+    background: var(--admin-light);
+    color: var(--admin-primary);
+}
+
+.role-card.seller:hover .role-icon {
+    background: var(--seller-light);
+    color: var(--seller-primary);
+}
+
+.role-card.customer:hover .role-icon {
+    background: var(--customer-light);
+    color: var(--customer-primary);
+}
+
+/* Footer */
+.main-footer {
+    text-align: center;
+    padding: 3rem;
+    color: var(--gray-400);
+    font-size: 0.9rem;
+    border-top: 1px solid var(--gray-200);
+    margin-top: 4rem;
+}
